@@ -1,0 +1,100 @@
+@import 'tailwindcss';
+
+@layer base {
+  /* @font-face {
+    font-family: 'JBT';
+    src: url('@/assets/font/DingTalk JinBuTi.ttf')
+  } */
+
+  /*
+    写法一: 配合tailwindcss使用，直接写 font-[JBT] 类
+    写法二：js引入字体文件，然后在style里面使用(需要让vite-plugin-font识别，然后自动转换woff2格式并且拆分)
+    import { css } from '@/assets/font/DingTalk JinBuTi.ttf';
+    <div :style="{ fontFamily: css.family }"></div>
+  */
+
+  @font-face {
+    font-family: 'SHSCN';
+    src: url('@/assets/font/SourceHanSansCN-Regular.otf');
+  }
+}
+
+@layer components {
+  .kt-center {
+    @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+  }
+
+  .kt-x-center {
+    @apply absolute left-1/2 -translate-x-1/2;
+  }
+
+  .kt-y-center {
+    @apply absolute top-1/2 -translate-y-1/2;
+  }
+
+  .kt-full {
+    @apply w-full h-full;
+  }
+
+  .kt-bg-full {
+    @apply bg-full bg-no-repeat duration-500;
+  }
+
+  .kt-bg-cover {
+    @apply bg-no-repeat bg-cover;
+  }
+
+  .kt-bg-contain {
+    @apply bg-no-repeat bg-contain;
+  }
+
+  .kt-border {
+    @apply border border-red-500 border-solid;
+  }
+
+  .kt-full-relative {
+    @apply w-full h-full relative;
+  }
+
+  .kt-flex {
+    @apply flex justify-center items-center;
+  }
+
+  .kt-grid {
+    @apply grid justify-center items-center;
+  }
+
+  .kt-bg-gradient1 {
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.7) 0%, #00000000 100%);
+  }
+
+  .kt-bg-gradient2 {
+    background: linear-gradient(180deg, #ffffff 0%, #00c2ff 68%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+  }
+
+  .kt-border-gradient {
+    border-left: 2px solid white;
+    border-right: 2px solid white;
+    border-image: linear-gradient(to bottom, #00000000, #ffffff, #00000000) 1 1;
+  }
+
+  .kt-text-overflow {
+    -webkit-line-clamp: 1;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .text-shadow-black {
+    text-shadow: 1px 2px 4px #00000080;
+  }
+}
+
+@utility bg-full {
+  background-size: 100% 100%;
+}

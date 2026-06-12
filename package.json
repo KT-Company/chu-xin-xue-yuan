@@ -1,0 +1,53 @@
+{
+  "name": "vite-build-ts",
+  "type": "module",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "preinstall": "npm run check-node-version",
+    "check-node-version": "node -e \"const v = process.version; if (!v.startsWith('v20')) { console.error('Error: 当前node版本为非20.x.x,请检查或者使用nvm use 20.'); process.exit(1); }\"",
+    "dev": "npm run check-node-version && vite",
+    "build": "vue-tsc && vite build",
+    "build:doc": "jsdoc -c jsdoc.json",
+    "preview": "vite preview",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "clean": "rimraf node_modules"
+  },
+  "dependencies": {
+    "@epicgames-ps/lib-pixelstreamingfrontend-ue5.2": "^0.5.8",
+    "@epicgames-ps/lib-pixelstreamingfrontend-ui-ue5.2": "^0.4.9",
+    "@tailwindcss/vite": "^4.0.11",
+    "@theatre/core": "^0.7.2",
+    "@theatre/studio": "^0.7.2",
+    "@types/three": "^0.170.0",
+    "@vueuse/core": "^12.8.2",
+    "autofit.js": "^3.2.4",
+    "axios": "1.8.2",
+    "echarts": "^5.6.0",
+    "echarts-gl": "^2.0.9",
+    "pinia": "^3.0.1",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0",
+    "xgplayer": "^3.0.21",
+    "xgplayer-flv": "^3.0.21",
+    "xgplayer-hls": "^3.0.21"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^4.6.0",
+    "@types/node": "^20.14.0",
+    "@vitejs/plugin-vue": "^5.2.1",
+    "docdash": "^2.0.2",
+    "eslint": "^9.21.0",
+    "jsdoc": "^4.0.4",
+    "less": "^4.6.4",
+    "tailwindcss": "^4.0.11",
+    "typescript": "^5.7.3",
+    "unplugin-auto-import": "^19.1.1",
+    "vite": "^6.2.1",
+    "vite-plugin-compression": "^0.5.1",
+    "vite-plugin-vue-devtools": "^7.7.2",
+    "vite-plugin-zip-pack": "^1.2.4",
+    "vue-tsc": "^2.2.8"
+  }
+}

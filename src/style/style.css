@@ -1,0 +1,47 @@
+@layer base {
+  * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    user-select: none;
+    /*三维图层部分比例下会出现隐藏的滚动条*/
+    /*scrollbar-width: none;
+    -ms-overflow-style: none;*/
+  }
+
+  *::before {
+    box-sizing: border-box;
+  }
+
+  *::after {
+    box-sizing: border-box;
+  }
+
+  *::-webkit-scrollbar {
+    padding-left: 20px;
+    width: .3rem;
+    background-color: rgba(220, 232, 255, 1);
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: rgba(69, 123, 223, 1);
+    border-radius: .5rem;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .dg.ac {
+    z-index: 999 !important;
+  }
+
+  select, select * {
+    color: black;
+  }
+
+  ul,
+  li {
+    list-style: none;
+  }
+}

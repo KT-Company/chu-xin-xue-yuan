@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>vite-build</title>
+
+  <script src="/assets/3d/js/main.js" defer></script>
+  <script src="/assets/3d/js/dat.gui.min.js" defer></script>
+  <script src="/assets/3d/js/three.path.js" defer></script>
+  <script src="/assets/3d/js/Path3D.js" defer></script>
+  <script src="/assets/3d/js/xlsx.full.min.js" defer></script>
+  <script src="/public.js"></script>
+  <script type="module" src="/src/env.js"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script type="module" src="/src/main.js"></script>
+  <script>
+    // 禁用鼠标右键菜单
+    document.addEventListener('contextmenu', (e) => {
+      e.preventDefault()
+    })
+  </script>
+</body>
+
+</html>
