@@ -19,13 +19,13 @@
 
   *::-webkit-scrollbar {
     padding-left: 20px;
-    width: .3rem;
+    width: 0.3rem;
     background-color: rgba(220, 232, 255, 1);
   }
 
   *::-webkit-scrollbar-thumb {
     background: rgba(69, 123, 223, 1);
-    border-radius: .5rem;
+    border-radius: 0.5rem;
   }
 
   a {
@@ -36,7 +36,8 @@
     z-index: 999 !important;
   }
 
-  select, select * {
+  select,
+  select * {
     color: black;
   }
 

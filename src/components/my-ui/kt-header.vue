@@ -1,21 +1,22 @@
 <script setup>
 let menuListState = ref('')
+import router from '@/router/index.js'
 let menuList = ref([
   {
     name: '态势感知',
-    path: '',
+    path: '/situational_awareness',
   },
   {
     name: '光伏管理',
-    path: '',
+    path: '/pv_management',
   },
   {
     name: '碳排管理',
-    path: '',
+    path: '/ce_management',
   },
   {
     name: '生活热水',
-    path: '',
+    path: '/left_hot_water',
   },
   {
     name: '空调系统',
@@ -28,11 +29,11 @@ let menuList = ref([
 ])
 let navigationSwitch = (data) => {
   menuListState.value = data.name
-  console.log(data.name)
+  router.push(data.path)
 }
 </script>
 <template>
-  <div class="w-[100%] h-[2160px] absolute left-0 top-0 bg-[url('@/assets/img/header-box.png')] bg-[length:100%_100%] font-[SHSCN]">
+  <div class="pointer-events-auto w-[100%] h-[2160px] absolute left-0 top-0 bg-[url('@/assets/img/header-box.png')] bg-[length:100%_100%] font-[SHSCN]">
     <div class="absolute w-[944px] h-[132px] left-[50%] translate-x-[-50%] top-[40px] bg-[url('@/assets/img/font-text.png')] bg-[length:100%_100%]"></div>
     <!--header-left-->
     <div class="absolute left-[80px] top-[78px] flex items-center">

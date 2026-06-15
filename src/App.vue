@@ -36,6 +36,6 @@ console.log('app')
 :global(#app) {
   height: 100%;
   width: 100%;
-  /* pointer-events: none; */
+  pointer-events: none;
 }
 </style>

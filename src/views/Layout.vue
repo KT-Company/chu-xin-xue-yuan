@@ -6,6 +6,7 @@
 <script setup lang="ts">
 import autofit from 'autofit.js'
 import ktHeader from '@/components/my-ui/kt-header.vue'
+import ktTime from '@/components/my-ui/kt-time.vue'
 onMounted(() => {
   autofit.init(
     {
@@ -22,6 +23,7 @@ onMounted(() => {
 <template>
   <div id="app-main">
     <ktHeader />
+    <ktTime style="top: 254px; left: 868px" />
     <!-- <KtNav />
     <KtTimer /> -->
     <router-view />

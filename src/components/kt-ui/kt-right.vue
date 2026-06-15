@@ -1,23 +1,27 @@
-<script setup>
-</script>
+<!--
+ * @Author: 米龙
+ * @Date: 2025-12-25 15:28:49
+ * @Description:
+-->
+<script setup></script>
 
 <template>
-  <div class="right animate__animated  animate__bounceInRight">
+  <div class="right animate__animated animate__bounceInRight">
     <slot />
   </div>
 </template>
 
 <style scoped>
 .right {
-  width: 365px;
-  height: 817px;
-  top: 121px;
+  top: 286px;
   pointer-events: all;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 23.5px;
+  height: 1600px;
+  pointer-events: all;
   position: absolute;
-  right: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  right: 92px;
   z-index: 1;
   background: rgba(33, 37, 52, 0.5);
 }
