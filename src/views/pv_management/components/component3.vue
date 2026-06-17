@@ -5,6 +5,68 @@
 -->
 <script setup>
 import ktItem from '@/components/my-ui/kt-item.vue'
+import ktEchart from '@/components/utils-ui/kt-echart.vue'
+
+const loadRateOption = ref({
+  graphic: [
+    {
+      type: 'text',
+      left: 'center',
+      top: '41%',
+      style: {
+        text: '42.81',
+        fill: '#fff',
+        fontSize: 30,
+        fontFamily: 'DINPro',
+        fontWeight: 700,
+      },
+    },
+    {
+      type: 'text',
+      left: '74%',
+      top: '45%',
+      style: {
+        text: '%',
+        fill: '#fff',
+        fontSize: 20,
+        fontFamily: 'SHSCN',
+        fontWeight: 700,
+      },
+    },
+  ],
+  series: [
+    {
+      name: '负荷率',
+      type: 'pie',
+      clockwise: true,
+      startAngle: 205,
+      radius: ['98%', '90%'],
+      center: ['50%', '50%'],
+      label: { show: false },
+      labelLine: { show: false },
+      data: [
+        {
+          name: '负荷率',
+          value: 42,
+          itemStyle: {
+            color: {
+              type: 'linear',
+              x: 0,
+              y: 0,
+              x2: 1,
+              y2: 1,
+              colorStops: [
+                { offset: 0, color: '#90BCFE' },
+                { offset: 1, color: 'rgba(28, 135, 130, 0)' },
+              ],
+            },
+          },
+        },
+        { name: '剩余', value: 58, itemStyle: { color: 'rgba(75, 196, 245, 0)' }, tooltip: { show: false } },
+      ],
+    },
+  ],
+})
 let list = ref([
   {
     name: '系统可用率',
@@ -38,10 +100,9 @@ let list = ref([
         </div>
       </div>
       <div class="w-[218px] h-[296px] bg-[url('@/assets/img/pv/comp3-e-box.png')] bg-[length:100%_100%] flex flex-col items-center text-[#fff]">
-        <div class="w-[198px] h-[190px] bg-[url('@/assets/img/pv/comp3-e-test.png')] bg-[length:100%_100%] mt-[10px] flex items-center justify-center">
-          <div class="flex items-end">
-            <p class="text-[40px]">42.81</p>
-            <p class="text-[24px] mb-[10px]">%</p>
+        <div class="relative w-[198px] h-[188px] bg-[url('@/assets/img/pv/comp3-e-test.png')] bg-[length:100%_100%] mt-[10px] flex items-center justify-center">
+          <div class="absolute left-[12px] top-[7px] w-[174px] h-[174px] bg-[url('@/assets/img/pv/comp3-e-bg.png')] bg-[length:100%_100%]">
+            <ktEchart :option="loadRateOption" />
           </div>
         </div>
         <p class="son-title text-[36px] font-[700]">负荷率</p>
@@ -85,5 +146,8 @@ let list = ref([
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+.rotate-animate {
+  animation: rotateAnimate 3s linear infinite;
 }
 </style>

@@ -4,11 +4,14 @@
  * @Description:
 -->
 <script setup>
+import { useStore } from '@/stores/index'
+
+const store = useStore()
 onMounted(() => {})
 </script>
 
 <template>
-  <div class="left">
+  <div class="left animate__animated animate__bounceInLeft" :class="{ 'board-hidden': !store.isDashboardVisible }">
     <slot />
   </div>
 </template>
@@ -24,6 +27,12 @@ onMounted(() => {})
   justify-content: space-between;
   left: 92px;
   z-index: 1;
-  background: rgba(33, 37, 52, 0.5);
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+.board-hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 </style>

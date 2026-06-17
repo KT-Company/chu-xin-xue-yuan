@@ -17,6 +17,28 @@
     font-family: 'SHSCN';
     src: url('@/assets/font/SourceHanSansCN-Regular.otf');
   }
+  @font-face {
+    font-family: 'DINPro';
+    src: url('@/assets/font/D-DIN.otf');
+  }
+  @font-face {
+    font-family: 'D-DIN-PRO';
+    src: url('@/assets/font/D-DIN.otf');
+  }
+
+  @keyframes rotateAnimate {
+    0% {
+      transform: rotate(0);
+      -webkit-transform: rotate(0);
+      -moz-transform: rotate(0);
+      -ms-transform: rotate(0);
+      -o-transform: rotate(0);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
 }
 
 @layer components {

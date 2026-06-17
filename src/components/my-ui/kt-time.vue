@@ -4,6 +4,8 @@
  * @Description:
 -->
 <script setup>
+import { useStore } from '@/stores/index'
+const store = useStore()
 let weather = ref([
   {
     icon: 'bg-[url(@/assets/img/weather-icon1.png)]',
@@ -37,7 +39,10 @@ let perspectiveListFn = (data) => {
 }
 </script>
 <template>
-  <div class="w-[1186px] h-[108px] bg-[url('@/assets/img/time-box.png')] bg-[length:100%_100%] absolute flex items-center pointer-events-auto cursor-pointer">
+  <div
+    class="time-weather w-[1186px] h-[108px] bg-[url('@/assets/img/time-box.png')] bg-[length:100%_100%] absolute flex items-center pointer-events-auto cursor-pointer"
+    :class="store.timeWeather == false ? 'move' : ''"
+  >
     <div class="w-[526.48px] h-[50.2px] bg-[url('@/assets/img/time-scale.png')] bg-[length:100%_100%] mt-[27.8px] ml-[47.52px] relative">
       <div class="w-[465px] flex justify-between text-[23.04px] text-[#fff] font-[] absolute left-[50%] translate-x-[-50%]">
         <P>00:00</P>
@@ -78,6 +83,15 @@ let perspectiveListFn = (data) => {
   </div>
 </template>
 <style scoped lang="less">
+.time-weather {
+  top: 254px;
+  left: 868px;
+  transition: all 1s;
+  &.move {
+    left: 178px;
+  }
+}
+
 .weather {
   position: relative;
   &.active {

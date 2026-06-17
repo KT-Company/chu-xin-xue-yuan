@@ -5,6 +5,67 @@
 -->
 <script setup>
 import ktItem from '@/components/my-ui/kt-item.vue'
+import ktEchart from '@/components/utils-ui/kt-echart.vue'
+
+const carbonEmissionOption = ref({
+  tooltip: {
+    trigger: 'item',
+    backgroundColor: 'rgba(3, 17, 35, 0.9)',
+    borderColor: 'rgba(99, 219, 255, 0.6)',
+    textStyle: { color: '#fff', fontSize: 24 },
+    formatter: (params) => `${params.name}<br/>占比：${params.value}%`,
+  },
+  series: [
+    {
+      name: '碳排',
+      type: 'pie',
+      clockwise: true,
+      startAngle: 90,
+      radius: ['100%', '90%'],
+      center: ['50%', '50%'],
+      label: { show: false },
+      labelLine: { show: false },
+      data: [
+        { name: '园区非供暖碳排', value: 20, itemStyle: { color: '#0091EB' } },
+        { name: '充电桩碳排', value: 20, itemStyle: { color: '#E9A84C' } },
+        { name: '园区供暖碳排', value: 20, itemStyle: { color: '#6EF8FA' } },
+        { name: '厨房燃气碳排', value: 20, itemStyle: { color: '#D0F13F' } },
+        { name: '燃油汽车碳排', value: 20, itemStyle: { color: '#52DE8C' } },
+      ],
+    },
+  ],
+})
+const carbonReductionOption = ref({
+  tooltip: {
+    trigger: 'item',
+    backgroundColor: 'rgba(3, 17, 35, 0.9)',
+    borderColor: 'rgba(99, 219, 255, 0.6)',
+    textStyle: { color: '#fff', fontSize: 24 },
+    formatter: (params) => `${params.name}<br/>占比：${params.value}%`,
+  },
+  series: [
+    {
+      name: '降碳',
+      type: 'pie',
+      clockwise: true,
+      startAngle: 90,
+      radius: ['100%', '90%'],
+      center: ['50%', '50%'],
+      label: { show: false },
+      labelLine: { show: false },
+      data: [
+        { name: '绿电', value: 79, itemStyle: { color: '#0091EB' } },
+        { name: '绿植', value: 3, itemStyle: { color: '#E9A84C' } },
+        { name: '光伏', value: 3, itemStyle: { color: '#6EF8FA' } },
+        { name: 'CER', value: 3, itemStyle: { color: '#D0F13F' } },
+        { name: '光热', value: 3, itemStyle: { color: '#52DE8C' } },
+        { name: 'CCER', value: 3, itemStyle: { color: '#FFFFFF' } },
+        { name: '绿证', value: 3, itemStyle: { color: '#C3FFB0' } },
+        { name: '绿建节能', value: 3, itemStyle: { color: '#B8B8B8' } },
+      ],
+    },
+  ],
+})
 let list1 = ref([
   {
     name: '园区非供暖碳排',
@@ -80,12 +141,15 @@ let colorList = {
           <div class="w-[130px] h-[68px] bg-[url('@/assets/img/ce/comp1-icon1.png')] bg-[length:100%_100%] flex items-center pl-[18px]">碳 排</div>
           <div class="w-[590px] h-[12px] bg-[url('@/assets/img/ce/comp1-line.png')] bg-[length:100%_100%]"></div>
         </div>
-        <div class="mt-[10px] ml-[27px] flex items-center justify-between">
+        <div class="ml-[27px] flex items-center justify-between">
           <div class="left">
-            <div class="w-[200px] h-[200px] flex justify-center items-center">
-              <div class="w-[168px] h-[168px] bg-[url('@/assets/img/ce/public-box.png')] bg-[length:100%_100%] flex items-center justify-center">
+            <div class="w-[200px] h-[200px] relative flex justify-center items-center">
+              <div class="w-[200px] h-[200px]">
+                <ktEchart :option="carbonEmissionOption" />
+              </div>
+              <div class="w-[168px] h-[168px] flex justify-center items-center bg-[url('@/assets/img/ce/public-box.png')] bg-[length:100%_100%] absolute">
                 <div class="flex flex-col items-center">
-                  <p class="font-[500] text-[40px] font-[D-DIN-PRO]">1.22</p>
+                  <p class="font-[500] text-[40px] font-[D-DIN-PRO]">69.01</p>
                   <p class="font-[500] text-[24px] font-[D-DIN-PRO]">tCO₂</p>
                 </div>
               </div>
@@ -123,13 +187,14 @@ let colorList = {
               </div>
             </div>
           </div>
-          <div class="right">
-            <div class="w-[200px] h-[200px] flex justify-center items-center">
-              <div class="w-[168px] h-[168px] bg-[url('@/assets/img/ce/public-box.png')] bg-[length:100%_100%] flex items-center justify-center">
-                <div class="flex flex-col items-center">
-                  <p class="font-[500] text-[40px] font-[D-DIN-PRO]">69.01</p>
-                  <p class="font-[500] text-[24px] font-[D-DIN-PRO]">tCO₂</p>
-                </div>
+          <div class="w-[200px] h-[200px] relative flex justify-center items-center">
+            <div class="w-[200px] h-[200px] absolute">
+              <ktEchart :option="carbonReductionOption" />
+            </div>
+            <div class="w-[168px] h-[168px] flex justify-center items-center bg-[url('@/assets/img/ce/public-box.png')] bg-[length:100%_100%] absolute">
+              <div class="flex flex-col items-center">
+                <p class="font-[500] text-[40px] font-[D-DIN-PRO]">1.22</p>
+                <p class="font-[500] text-[24px] font-[D-DIN-PRO]">tCO₂</p>
               </div>
             </div>
           </div>

@@ -43,36 +43,38 @@ onMounted(() => {
   // 自适应不同屏幕时改变图表尺寸
   window.addEventListener('resize', cancalDebounce);
 
-  // tooltip轮播
-  let curIdx = -1;
-  let hover = false;
-  toolTipTimer = setInterval(() => {
-    const maxLen = props.option.series.filter(i => i.data).reduce((acc, cur) => acc?.data?.length > cur.data.length ? acc.data.length : cur.data.length, -Infinity);
-    if (maxLen) {
-      const maxSeriesIdx = props.option.series.findIndex(i => i?.data?.length === maxLen);
-      curIdx = (curIdx + 1) % maxLen;
-      if (!hover) {
-        myChart.dispatchAction({
-          type: 'showTip',
-          seriesIndex: maxSeriesIdx,
-          dataIndex: curIdx,
-        });
+  // 仅在业务显式开启时轮播 tooltip，避免普通图表无需操作就弹出提示框
+  if (props.autoTooltip) {
+    let curIdx = -1;
+    let hover = false;
+    toolTipTimer = setInterval(() => {
+      const maxLen = props.option.series.filter(i => i.data).reduce((acc, cur) => acc?.data?.length > cur.data.length ? acc.data.length : cur.data.length, -Infinity);
+      if (maxLen) {
+        const maxSeriesIdx = props.option.series.findIndex(i => i?.data?.length === maxLen);
+        curIdx = (curIdx + 1) % maxLen;
+        if (!hover) {
+          myChart.dispatchAction({
+            type: 'showTip',
+            seriesIndex: maxSeriesIdx,
+            dataIndex: curIdx,
+          });
+        }
       }
-    }
-  }, 2000);
-  // 防止与mouse事件冲突,getZr监听到整个画布
-  myChart.getZr().on('mouseover', () => {
-    hover = true;
-  });
-  myChart.getZr().on('globalout', () => {
-    hover = false;
-  });
+    }, 2000);
+    // 防止与mouse事件冲突,getZr监听到整个画布
+    myChart.getZr().on('mouseover', () => {
+      hover = true;
+    });
+    myChart.getZr().on('globalout', () => {
+      hover = false;
+    });
+  }
 });
 // 页面销毁前，销毁事件和实例
 onBeforeUnmount(() => {
   window.removeEventListener('resize', cancalDebounce);
   myChart.dispose();
-  clearInterval(toolTipTimer);
+  toolTipTimer && clearInterval(toolTipTimer);
 });
 // 监听图表数据时候变化，重新渲染图表
 watch(

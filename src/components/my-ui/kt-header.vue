@@ -1,6 +1,12 @@
 <script setup>
-let menuListState = ref('')
 import router from '@/router/index.js'
+import { useStore } from '@/stores/index'
+let menuListState = ref('态势感知')
+const now = useNow({ interval: 1000 })
+const currentDate = useDateFormat(now, 'YYYY-MM-DD')
+const currentTime = useDateFormat(now, 'HH:mm:ss')
+
+const store = useStore()
 let menuList = ref([
   {
     name: '态势感知',
@@ -20,26 +26,51 @@ let menuList = ref([
   },
   {
     name: '空调系统',
-    path: '',
+    path: '/air_conditioner',
   },
   {
     name: '运维监控',
-    path: '',
+    path: '/om_monitor',
   },
 ])
+
+let headerState = ref([true, true])
+let isKeyboardTipVisible = ref(false)
+
+let headerStateFn = (i) => {
+  headerState.value[i] = !headerState.value[i]
+}
+
+let showKeyboardTip = () => {
+  isKeyboardTipVisible.value = true
+}
+
+let hideKeyboardTip = () => {
+  isKeyboardTipVisible.value = false
+}
+
 let navigationSwitch = (data) => {
+  if (data.name == '态势感知' || data.name == '空调系统' || data.name == '运维监控') {
+    store.timeWeather = true
+  } else {
+    store.timeWeather = false
+  }
   menuListState.value = data.name
   router.push(data.path)
+}
+let handleCloseDashboard = () => {
+  store.isDashboardVisible = !store.isDashboardVisible
 }
 </script>
 <template>
   <div class="pointer-events-auto w-[100%] h-[2160px] absolute left-0 top-0 bg-[url('@/assets/img/header-box.png')] bg-[length:100%_100%] font-[SHSCN]">
+    <div class="w-[100%] h-[218px] absolute bg-[url('@/assets/img/header-line.gif')] bg-[length:100%_100%]"></div>
     <div class="absolute w-[944px] h-[132px] left-[50%] translate-x-[-50%] top-[40px] bg-[url('@/assets/img/font-text.png')] bg-[length:100%_100%]"></div>
-    <!--header-left-->
-    <div class="absolute left-[80px] top-[78px] flex items-center">
+    <!-- 左侧用于承载时间和一级导航，方便大屏头部按视觉稿固定定位 -->
+    <div class="absolute left-[80px] top-[78px] flex items-center text-[28px]">
       <div class="flex items-center font-[38px]">
-        <p class="time time1 pr-[5px]">2026-06-09</p>
-        <p class="time time2 pl-[5px]">13:44</p>
+        <p class="time time1 pr-[5px]">{{ currentDate }}</p>
+        <p class="time time2 pl-[5px]">{{ currentTime }}</p>
       </div>
       <div class="flex items-center text-[40px] ml-[50px] cursor-pointer">
         <div
@@ -53,7 +84,7 @@ let navigationSwitch = (data) => {
         </div>
       </div>
     </div>
-    <!--header-right-->
+    <!-- 右侧与左侧分开定位，避免中间标题区域被导航挤压 -->
     <div class="absolute right-[106px] top-[78px] flex items-center">
       <div class="flex items-center text-[40px] ml-[50px] cursor-pointer">
         <div
@@ -66,7 +97,37 @@ let navigationSwitch = (data) => {
           <p>{{ item.name }}</p>
         </div>
       </div>
-      <div class="w-[72.31px] h-[72.31px] bg-[url('@/assets/img/header-close.png')] bg-[length:100%_100%] ml-[147px]"></div>
+      <div class="flex w-[300px] justify-end">
+        <div
+          class="relative ml-[12px] cursor-pointer w-[72.31px] h-[72.31px] bg-[url('@/assets/img/header-icon-box.png')] bg-[length:100%_100%] flex items-center justify-center hover:bg-[url('@/assets/img/header-icon-box-active.png')]"
+          :class="headerState[1] ? 'bg-[url(@/assets/img/header-icon-box.png)]' : 'bg-[url(@/assets/img/header-icon-box-active.png)]'"
+          @click="headerStateFn(1)"
+          @mouseenter="showKeyboardTip"
+          @mouseleave="hideKeyboardTip"
+        >
+          <div class="w-[44px] h-[46px] bg-[url('@/assets/img/keyboard.png')] bg-[length:100%_100%]"></div>
+          <div
+            v-show="isKeyboardTipVisible"
+            class="absolute top-[86px] left-[50%] translate-x-[-50%] w-[408px] h-[288px] bg-[url('@/assets/img/keyboard-tip.png')] bg-[length:100%_100%] z-[10]"
+          ></div>
+        </div>
+
+        <div
+          class="ml-[12px] cursor-pointer w-[72.31px] h-[72.31px] bg-[url('@/assets/img/header-icon-box.png')] bg-[length:100%_100%] flex items-center justify-center hover:bg-[url('@/assets/img/header-icon-box-active.png')]"
+          :class="headerState[0] ? 'bg-[url(@/assets/img/header-icon-box.png)]' : 'bg-[url(@/assets/img/header-icon-box-active.png)]'"
+          @click="headerStateFn(0)"
+        >
+          <div class="w-[44px] h-[46px] bg-[url('@/assets/img/header-set.png')] bg-[length:100%_100%]"></div>
+        </div>
+
+        <div
+          class="ml-[12px] cursor-pointer w-[72.31px] h-[72.31px] bg-[url('@/assets/img/header-icon-box.png')] bg-[length:100%_100%] flex items-center justify-center hover:bg-[url('@/assets/img/header-icon-box-active.png')]"
+          :class="store.isDashboardVisible ? 'bg-[url(@/assets/img/header-icon-box.png)]' : 'bg-[url(@/assets/img/header-icon-box-active.png)]'"
+          @click="handleCloseDashboard"
+        >
+          <div class="w-[44px] h-[46px] bg-[url('@/assets/img/header-close.png')] bg-[length:100%_100%]"></div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

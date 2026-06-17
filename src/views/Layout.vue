@@ -23,7 +23,8 @@ onMounted(() => {
 <template>
   <div id="app-main">
     <ktHeader />
-    <ktTime style="top: 254px; left: 868px" />
+    <ktTime />
+    <div class="absolute w-[100%] h-[100%] bg-[url('@/assets/img/overlay.png')] bg-[length:100%_100%] z-[-1]"></div>
     <!-- <KtNav />
     <KtTimer /> -->
     <router-view />

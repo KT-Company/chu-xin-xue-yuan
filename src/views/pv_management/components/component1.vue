@@ -7,19 +7,19 @@
 import ktItem from '@/components/my-ui/kt-item.vue'
 let list = ref([
   {
-    icon: 'bg-[url(@/assets/img/pv/comp1-icon1.png)]',
+    icon: 'bg-[url(@/assets/img/pv/icon1.png)]',
     name: '累计发电量',
     val: '5.872',
     unit: '万kWh',
   },
   {
-    icon: 'bg-[url(@/assets/img/pv/comp1-icon2.png)]',
+    icon: 'bg-[url(@/assets/img/pv/icon2.png)]',
     name: '日发电量',
     val: '62',
     unit: 'kWh',
   },
   {
-    icon: 'bg-[url(@/assets/img/pv/comp1-icon3.png)]',
+    icon: 'bg-[url(@/assets/img/pv/icon3.png)]',
     name: '光伏消纳比例',
     val: '75',
     unit: '%',
@@ -39,8 +39,136 @@ let list = ref([
           <p class="text-[50px] text-[#fff]">{{ item.val }}</p>
           <p class="text-[24px] text-[rgba(255,255,255,0.76)] font-[400] ml-[8px] mb-[10px]">{{ item.unit }}</p>
         </div>
-        <div class="w-[108px] h-[108px] bg-[length:100%_100%]" :class="item.icon"></div>
+        <div class="pv-icon-stage w-[108px] h-[108px] bg-[length:100%_100%] flex justify-center relative">
+          <div class="pv-icon-glow"></div>
+          <div class="pv-base-ring"></div>
+          <div class="pv-top-ring">
+            <div class="pv-segments">
+              <i v-for="segment in 16" :key="segment" class="pv-seg" :style="{ '--a': `${(segment - 1) * 22.5}deg` }"></i>
+            </div>
+          </div>
+          <div class="w-[80px] h-[58px] absolute top-[10px] z-[9] left-[8px]" :class="item.icon"></div>
+        </div>
       </div>
     </div>
   </ktItem>
 </template>
+<style scoped lang="less">
+.pv-icon-stage {
+  perspective: 420px;
+}
+
+.pv-icon-glow {
+  position: absolute;
+  width: 110px;
+  height: 27px;
+  top: 75px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(57, 178, 255, 0.45) 0%, rgba(57, 178, 255, 0.18) 38%, rgba(57, 178, 255, 0) 72%);
+  filter: blur(5px);
+  animation: pvGlowPulse 1.9s ease-out infinite;
+}
+
+.pv-base-ring {
+  position: absolute;
+  width: 108px;
+  height: 108px;
+  top: 20px;
+  border-radius: 50%;
+  transform: rotateX(68deg);
+  transform-style: preserve-3d;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 12px solid #329fdb;
+    box-shadow:
+      0 5px 11px rgba(31, 143, 211, 0.35),
+      inset 0 -5px 9px rgba(8, 30, 46, 0.65);
+    animation: pvSpreadFade 1.9s ease-out infinite;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 12px;
+    border-radius: 50%;
+    background: rgba(22, 107, 177, 0.15);
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.55);
+  }
+}
+
+.pv-top-ring {
+  position: absolute;
+  width: 104px;
+  height: 104px;
+  top: 15px;
+  border-radius: 50%;
+  transform: rotateX(68deg);
+  transform-style: preserve-3d;
+}
+
+.pv-segments {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  transform-style: preserve-3d;
+  animation: pvRotateRing 10.6s linear infinite;
+}
+
+.pv-seg {
+  --a: 0deg;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20px;
+  height: 12px;
+  margin-left: -7.5px;
+  margin-top: -3.5px;
+  background: linear-gradient(180deg, #1f75aa, #40b8f6);
+  border-radius: 1px;
+  transform: rotate(var(--a)) translateY(-37px) rotate(90deg);
+  box-shadow: 0 0 5px rgba(45, 164, 235, 0.22);
+}
+
+@keyframes pvRotateRing {
+  from {
+    transform: rotateZ(0deg);
+  }
+  to {
+    transform: rotateZ(-360deg);
+  }
+}
+
+@keyframes pvSpreadFade {
+  0% {
+    transform: scale(0.92);
+    opacity: 0.65;
+  }
+  65% {
+    transform: scale(1.16);
+    opacity: 0.35;
+  }
+  100% {
+    transform: scale(1.26);
+    opacity: 0;
+  }
+}
+
+@keyframes pvGlowPulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.55;
+  }
+  65% {
+    transform: scale(1.25);
+    opacity: 0.22;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+</style>
