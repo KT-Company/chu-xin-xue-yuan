@@ -5,6 +5,8 @@
 -->
 <script setup>
 import ktItem from '@/components/my-ui/kt-item.vue'
+import { useStore } from '@/stores/index'
+let store = useStore()
 let list = ref([
   {
     name: '热泵热水机',
@@ -107,6 +109,9 @@ const data = ref({
     },
   ],
 })
+let changeSonTitleActive = () => {
+  store.isPopListVisible = true
+}
 </script>
 <template>
   <ktItem
@@ -118,6 +123,7 @@ const data = ref({
         class: 'w-[100%]',
       },
     ]"
+    @changeSonTitleActive="changeSonTitleActive"
   >
     <div class="w-[100%] h-[659px] bg-[url('@/assets/img/item-box.png')] bg-[length:100%_100%] text-[#fff] px-[20px]">
       <div>

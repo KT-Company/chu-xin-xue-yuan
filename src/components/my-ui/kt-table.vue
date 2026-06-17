@@ -11,7 +11,7 @@ const props = defineProps({
 
 <template>
   <div class="table">
-    <ul class="table-title w-[23px] h-[23px] bg-[url(@/)] bg-no-repeat text-[#fff] text-[23px] font-[800] font-[微软雅黑]" :class="[titleClass]">
+    <ul class="table-title w-[23px] h-[23px] bg-no-repeat text-[#fff] text-[23px] font-[800] font-[微软雅黑]" :class="[titleClass]">
       <li v-for="(item, i) in title" :key="i" :style="{ flex: width ? width[i] : '' }">
         {{ item }}
       </li>

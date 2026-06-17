@@ -65,7 +65,7 @@ let list = ref([
         <div class="line w-[207.79px] h-[68px] bg-[url('@/assets/img/air/comp1-icon1.png')] bg-[length:100%_100%] flex items-center">
           <p class="ml-[10px] text-[28px]">{{ item.name }}</p>
         </div>
-        <div class="ml-[196px] flex flex-wrap justify-between">
+        <div class="ml-[196px] flex flex-wrap justify-between mt-[10px]">
           <div class="w-[236px] mb-[20px]" v-for="(items, j) in item.values" :key="j">
             <p class="son-title text-[rgba(255,255,255,0.8)] text-[28px]">{{ items.label }}</p>
             <div class="flex items-end justify-between w-[100%]">
@@ -81,6 +81,7 @@ let list = ref([
 <style scoped lang="less">
 .line {
   position: relative;
+
   &::after {
     position: absolute;
     content: '';
@@ -91,13 +92,13 @@ let list = ref([
     background-size: 100% 100%;
     right: -538px;
   }
-  &:nth-child(odd) {
-  }
-  &:nth-child(even) {
-  }
 }
+
 .list {
   &:nth-child(odd) {
+    .line {
+      background: url(@/assets/img/air/comp1-icon1.png) no-repeat;
+    }
     .son-title {
       position: relative;
       &::after {
@@ -115,6 +116,9 @@ let list = ref([
   }
   &:nth-child(even) {
     margin-top: 16px;
+    .line {
+      background: url(@/assets/img/air/comp1-icon2.png) no-repeat;
+    }
     .son-title {
       position: relative;
       &::after {

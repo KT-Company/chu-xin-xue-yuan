@@ -6,7 +6,22 @@
 <script setup lang="ts">
 import autofit from 'autofit.js'
 import ktHeader from '@/components/my-ui/kt-header.vue'
+import ktPopFn from '@/components/my-ui/kt-pop-fn.vue'
+import ktPopList from '@/components/my-ui/kt-pop-list.vue'
 import ktTime from '@/components/my-ui/kt-time.vue'
+import { useStore } from '@/stores/index'
+let store = useStore()
+const isPopFnVisible = ref(false)
+
+let togglePopFn = () => {
+  isPopFnVisible.value = !isPopFnVisible.value
+}
+let hidePopFn = () => {
+  isPopFnVisible.value = false
+}
+let hidePopList = () => {
+  store.isPopListVisible = false
+}
 onMounted(() => {
   autofit.init(
     {
@@ -22,11 +37,14 @@ onMounted(() => {
 
 <template>
   <div id="app-main">
-    <ktHeader />
+    <ktHeader :is-pop-fn-visible="isPopFnVisible" @openPopFn="togglePopFn" />
     <ktTime />
     <div class="absolute w-[100%] h-[100%] bg-[url('@/assets/img/overlay.png')] bg-[length:100%_100%] z-[-1]"></div>
+    <div class="absolute w-[100%] h-[100%] bg-[url('@/assets/img/bg.png')] bg-[length:100%_100%] z-[-2]"></div>
     <!-- <KtNav />
     <KtTimer /> -->
+    <ktPopFn v-if="isPopFnVisible" @close="hidePopFn" />
+    <ktPopList v-if="store.isPopListVisible" @close="hidePopList" />
     <router-view />
   </div>
 </template>

@@ -116,7 +116,7 @@ function handleItemButton(button) {
     height: calc(100% - var(--th));
     position: absolute;
     width: 100%;
-    background: url('../assets/img/item_bg.png') no-repeat center / 100% 100%;
+    /* background: url('../assets/img/item_bg.png') no-repeat center / 100% 100%; */
   }
 }
 </style>

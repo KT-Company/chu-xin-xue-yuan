@@ -18,9 +18,9 @@ const option = ref({
   legend: {
     top: 0,
     right: 6,
-    itemWidth: 18,
-    itemHeight: 8,
-    textStyle: { color: 'rgba(255,255,255,0.78)', fontSize: 18 },
+    itemWidth: 20,
+    itemHeight: 10,
+    textStyle: { color: 'rgba(255,255,255,0.78)', fontSize: 20 },
     data: ['今日', '昨日', '预测'],
   },
   grid: {

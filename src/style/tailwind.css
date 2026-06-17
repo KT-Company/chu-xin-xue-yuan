@@ -25,7 +25,10 @@
     font-family: 'D-DIN-PRO';
     src: url('@/assets/font/D-DIN.otf');
   }
-
+  @font-face {
+    font-family: 'Noto-Sans-SC';
+    src: url('@/assets/font/NotoSansCJKsc-Medium.otf');
+  }
   @keyframes rotateAnimate {
     0% {
       transform: rotate(0);

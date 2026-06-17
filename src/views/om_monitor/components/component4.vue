@@ -5,6 +5,8 @@
 -->
 <script setup>
 import ktItem from '@/components/my-ui/kt-item.vue'
+import { useStore } from '@/stores/index'
+let store = useStore()
 let list = ref([
   {
     name: '设备未处理',
@@ -163,6 +165,9 @@ const loadRateOption = ref({
     },
   ],
 })
+let changeSonTitleActive = () => {
+  store.isPopListVisible = true
+}
 </script>
 <template>
   <ktItem
@@ -174,6 +179,7 @@ const loadRateOption = ref({
         class: 'w-[100%]',
       },
     ]"
+    @changeSonTitleActive="changeSonTitleActive"
   >
     <div class="w-[100%] h-[697px] bg-[url('@/assets/img/item-box.png')] bg-[length:100%_100%] px-[20px] pt-[23px] text-[#fff]">
       <div class="flex">

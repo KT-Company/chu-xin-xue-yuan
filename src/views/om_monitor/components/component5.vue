@@ -5,6 +5,8 @@
 -->
 <script setup>
 import ktItem from '@/components/my-ui/kt-item.vue'
+import { useStore } from '@/stores/index'
+let store = useStore()
 const data = ref({
   columns: [
     {
@@ -69,6 +71,9 @@ const data = ref({
     },
   ],
 })
+let changeSonTitleActive = () => {
+  store.isPopListVisible = true
+}
 </script>
 <template>
   <ktItem
@@ -80,6 +85,7 @@ const data = ref({
         class: 'w-[100%]',
       },
     ]"
+    @changeSonTitleActive="changeSonTitleActive"
   >
     <div class="w-[100%] h-[390px] bg-[url('@/assets/img/item-box.png')] bg-[length:100%_100%] flex items-center justify-center">
       <div class="w-[708px] h-[342px]">

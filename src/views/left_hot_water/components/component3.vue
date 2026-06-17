@@ -24,9 +24,9 @@ const option = ref({
   legend: {
     top: 0,
     right: 8,
-    itemWidth: 18,
-    itemHeight: 8,
-    textStyle: { color: 'rgba(255,255,255,0.78)', fontSize: 18 },
+    itemWidth: 20,
+    itemHeight: 10,
+    textStyle: { color: 'rgba(255,255,255,0.78)', fontSize: 20 },
     data: ['热水量实时温度', '热水量实时温度', '供水出水温度'],
   },
   grid: {

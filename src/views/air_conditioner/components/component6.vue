@@ -5,7 +5,8 @@
 -->
 <script setup>
 import ktItem from '@/components/my-ui/kt-item.vue'
-
+import { useStore } from '@/stores/index'
+let store = useStore()
 const data = ref({
   columns: [
     {
@@ -120,6 +121,9 @@ const getStatusTextClass = (status) => {
   ])
   return statusMap.get(status)
 }
+let changeSonTitleActive = () => {
+  store.isPopListVisible = true
+}
 </script>
 <template>
   <ktItem
@@ -131,6 +135,7 @@ const getStatusTextClass = (status) => {
         class: 'w-[100%]',
       },
     ]"
+    @changeSonTitleActive="changeSonTitleActive"
   >
     <div class="w-[100%] h-[739px] bg-[url('@/assets/img/item-box.png')] bg-[length:100%_100%] flex items-center">
       <cus-table :columns="data.columns" :data="data.data" gap="0px" @click-row="getPopData">

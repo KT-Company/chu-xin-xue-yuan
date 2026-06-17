@@ -1,6 +1,10 @@
 <script setup>
 import router from '@/router/index.js'
 import { useStore } from '@/stores/index'
+const props = defineProps({
+  isPopFnVisible: Boolean,
+})
+const emit = defineEmits(['openPopFn'])
 let menuListState = ref('态势感知')
 const now = useNow({ interval: 1000 })
 const currentDate = useDateFormat(now, 'YYYY-MM-DD')
@@ -61,6 +65,9 @@ let navigationSwitch = (data) => {
 let handleCloseDashboard = () => {
   store.isDashboardVisible = !store.isDashboardVisible
 }
+let handleOpenPopFn = () => {
+  emit('openPopFn')
+}
 </script>
 <template>
   <div class="pointer-events-auto w-[100%] h-[2160px] absolute left-0 top-0 bg-[url('@/assets/img/header-box.png')] bg-[length:100%_100%] font-[SHSCN]">
@@ -114,8 +121,8 @@ let handleCloseDashboard = () => {
 
         <div
           class="ml-[12px] cursor-pointer w-[72.31px] h-[72.31px] bg-[url('@/assets/img/header-icon-box.png')] bg-[length:100%_100%] flex items-center justify-center hover:bg-[url('@/assets/img/header-icon-box-active.png')]"
-          :class="headerState[0] ? 'bg-[url(@/assets/img/header-icon-box.png)]' : 'bg-[url(@/assets/img/header-icon-box-active.png)]'"
-          @click="headerStateFn(0)"
+          :class="props.isPopFnVisible ? 'bg-[url(@/assets/img/header-icon-box-active.png)]' : 'bg-[url(@/assets/img/header-icon-box.png)]'"
+          @click="handleOpenPopFn"
         >
           <div class="w-[44px] h-[46px] bg-[url('@/assets/img/header-set.png')] bg-[length:100%_100%]"></div>
         </div>
