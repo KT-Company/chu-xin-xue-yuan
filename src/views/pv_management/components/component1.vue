@@ -25,9 +25,25 @@ let list = ref([
     unit: '%',
   },
 ])
+let titleList = ref([
+  {
+    name: '发电统计',
+    active: true,
+  },
+  {
+    name: '光伏消纳',
+    active: false,
+  },
+])
+const changeTitleActive = (activeIndex) => {
+  titleList.value = titleList.value.map((item, index) => ({
+    ...item,
+    active: index === activeIndex,
+  }))
+}
 </script>
 <template>
-  <ktItem :titleList="['节能减排']">
+  <ktItem :titleList="titleList" @selectTitle="changeTitleActive">
     <div class="w-[100%] h-[245px] bg-[url('@/assets/img/item-box.png')] bg-[length:100%_100%] flex items-center">
       <div class="flex flex-col items-center justify-around w-[100%]" v-for="(item, i) in list" :key="i">
         <div

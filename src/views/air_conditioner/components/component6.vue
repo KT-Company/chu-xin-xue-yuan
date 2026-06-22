@@ -106,6 +106,63 @@ const data = ref({
     },
     {
       k1: '10',
+      k2: '冷却补水泵',
+      k3: 'PD-06-001',
+      k4: '设备机房',
+      k5: '运行',
+    },
+
+    {
+      k1: '11',
+      k2: '空调电控配电柜',
+      k3: 'XF-05-001',
+      k4: '设备机房',
+      k5: '故障',
+    },
+    {
+      k1: '12',
+      k2: '楼顶新风机组 X1',
+      k3: 'XF-05-002',
+      k4: '设备机房',
+      k5: '停机',
+    },
+    {
+      k1: '13',
+      k2: '楼顶新风机组 X2',
+      k3: 'PD-06-001',
+      k4: '三楼公共区域',
+      k5: '运行',
+    },
+    {
+      k1: '14',
+      k2: '空调电控配电柜',
+      k3: 'BS-04-001',
+      k4: '设备机房',
+      k5: '运行',
+    },
+    {
+      k1: '15',
+      k2: '冷却补水泵',
+      k3: 'BS-04-001',
+      k4: '冷水机房',
+      k5: '故障',
+    },
+    {
+      k1: '16',
+      k2: '楼顶新风机组 X1',
+      k3: 'XF-05-001',
+      k4: '二楼公共区域',
+      k5: '停机',
+    },
+    {
+      k1: '17',
+      k2: '楼顶新风机组 X2',
+      k3: 'XF-05-002',
+      k4: '三楼公共区域',
+      k5: '运行',
+    },
+    {
+      k1: '18',
       k2: '空调电控配电柜',
       k3: 'PD-06-001',
       k4: '设备机房',
@@ -137,7 +194,7 @@ let changeSonTitleActive = () => {
     ]"
     @changeSonTitleActive="changeSonTitleActive"
   >
-    <div class="w-[100%] h-[739px] bg-[url('@/assets/img/item-box.png')] bg-[length:100%_100%] flex items-center">
+    <div class="w-[100%] h-[1242px] bg-[url('@/assets/img/item-box.png')] bg-[length:100%_100%] flex items-center">
       <cus-table :columns="data.columns" :data="data.data" gap="0px" @click-row="getPopData">
         <template #k5-cell="{ val }">
           <div>

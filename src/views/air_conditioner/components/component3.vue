@@ -6,7 +6,7 @@
 <script setup>
 import ktItem from '@/components/my-ui/kt-item.vue'
 const option = ref({
-  color: ['#69f7ff', '#e7ff4f', '#4df2a2'],
+  color: ['#6EF8FA', '#2F7CF4', '#4df2a2'],
   tooltip: {
     trigger: 'axis',
     backgroundColor: 'rgba(3, 17, 35, 0.9)',
@@ -21,7 +21,7 @@ const option = ref({
     icon: 'rect',
     itemGap: 58,
     textStyle: { color: '#fff', fontSize: 24 },
-    data: ['今日', '昨日', '预测'],
+    data: ['温度', '湿度', '预测'],
   },
   grid: {
     top: 92,
@@ -42,41 +42,41 @@ const option = ref({
     name: '℃',
     min: 0,
     max: 100,
-    splitNumber: 4,
+
     nameTextStyle: { color: '#fff', fontSize: 22, padding: [0, 34, 0, 0] },
     axisLabel: { color: 'rgba(255,255,255,0.82)', fontSize: 22 },
     axisLine: { show: false },
     axisTick: { show: false },
-    splitLine: { lineStyle: { color: 'rgba(255,255,255,0.12)', type: 'dashed' } },
+    splitLine: { lineStyle: { color: 'rgba(235, 235, 235, 0.1)', type: 'dashed' } },
   },
   series: [
     {
-      name: '今日',
+      name: '温度',
       type: 'line',
       symbol: 'circle',
       symbolSize: 8,
       lineStyle: { width: 4 },
       itemStyle: { borderWidth: 0 },
-      data: [88, 90, 99, 86, 80, 68],
+      data: [74, 75, 80, 70, 76, 60],
     },
     {
-      name: '昨日',
+      name: '湿度',
       type: 'line',
       symbol: 'circle',
       symbolSize: 8,
       lineStyle: { width: 4 },
       itemStyle: { borderWidth: 0 },
-      data: [49, 61, 60, 53, 51, 59],
+      data: [26, 45, 43, 32, 30, 48],
     },
-    {
-      name: '预测',
-      type: 'line',
-      symbol: 'circle',
-      symbolSize: 8,
-      lineStyle: { width: 4 },
-      itemStyle: { borderWidth: 0 },
-      data: [94, 84, 84, 90, 90, 84],
-    },
+    // {
+    //   name: '预测',
+    //   type: 'line',
+    //   symbol: 'circle',
+    //   symbolSize: 8,
+    //   lineStyle: { width: 4 },
+    //   itemStyle: { borderWidth: 0 },
+    //   data: [94, 84, 84, 90, 90, 84],
+    // },
   ],
 })
 const sonTitleList = ref([
@@ -92,7 +92,7 @@ const sonTitleList = ref([
   },
 ])
 
-const changeSonTitleActive = activeIndex => {
+const changeSonTitleActive = (activeIndex) => {
   sonTitleList.value = sonTitleList.value.map((item, index) => ({
     ...item,
     active: index === activeIndex,
@@ -100,7 +100,7 @@ const changeSonTitleActive = activeIndex => {
 }
 </script>
 <template>
-  <ktItem :titleList="['供冷热负荷']" :sonTitleList="sonTitleList" @changeSonTitleActive="changeSonTitleActive">
+  <ktItem :titleList="['房间参数']">
     <div class="w-[100%] h-[468px] bg-[url('@/assets/img/item-box.png')] bg-[length:100%_100%] flex items-center">
       <kt-echart :option="option" />
     </div>

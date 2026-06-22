@@ -21,7 +21,7 @@ import component6 from './components/component6.vue'
     <component3 />
   </ktLeft>
   <ktRight style="width: 747px; height: 1770px">
-    <component4 />
+    <!-- <component4 /> -->
     <component5 />
     <component6 />
   </ktRight>

@@ -29,7 +29,7 @@ const list = ref([
 </script>
 <template>
   <ktItem :titleList="['重点监控']">
-    <div class="w-[100%] h-[365px] bg-[url('@/assets/img/item-box.png')] bg-[length:100%_100%] flex flex-col justify-center px-[34px] text-[#fff]">
+    <div class="w-[100%] h-[336px] bg-[url('@/assets/img/item-box.png')] bg-[length:100%_100%] flex flex-col justify-center px-[34px] text-[#fff]">
       <div class="line w-[688px] h-[138px] bg-[length:100%_100%] relative pl-[72px] pt-[16px] mb-[14px]" v-for="(item, i) in list" :key="i">
         <p class="text-[28px] font-[Noto-Sans-SC]">{{ item.name }}</p>
         <div class="flex items-center mt-[8px]">
