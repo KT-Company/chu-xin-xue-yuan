@@ -5,24 +5,45 @@
 -->
 <script setup>
 import ktItem from '@/components/my-ui/kt-item.vue'
+let listActive = ref()
 let list = ref([
   {
-    icon: 'bg-[url(@/assets/img/pv/icon1.png)]',
+    icon: new URL('@/assets/img/pv/icon1.png', import.meta.url).href,
     name: '累计发电量',
     val: '5.872',
     unit: '万kWh',
   },
   {
-    icon: 'bg-[url(@/assets/img/pv/icon2.png)]',
+    icon: new URL('@/assets/img/pv/icon2.png', import.meta.url).href,
     name: '日发电量',
     val: '62',
     unit: 'kWh',
   },
   {
-    icon: 'bg-[url(@/assets/img/pv/icon3.png)]',
+    icon: new URL('@/assets/img/pv/icon3.png', import.meta.url).href,
     name: '光伏消纳比例',
     val: '75',
     unit: '%',
+  },
+])
+let list2 = ref([
+  {
+    icon: new URL('@/assets/img/pv/icon4.png', import.meta.url).href,
+    name: '上网电量',
+    val: '587.2',
+    unit: 'kWh',
+  },
+  {
+    icon: new URL('@/assets/img/pv/icon5.png', import.meta.url).href,
+    name: '发电效率',
+    val: '82',
+    unit: '%',
+  },
+  {
+    icon: new URL('@/assets/img/pv/icon6.png', import.meta.url).href,
+    name: '自用量',
+    val: '75',
+    unit: 'kWh',
   },
 ])
 let titleList = ref([
@@ -35,17 +56,23 @@ let titleList = ref([
     active: false,
   },
 ])
+listActive.value = list.value
 const changeTitleActive = (activeIndex) => {
   titleList.value = titleList.value.map((item, index) => ({
     ...item,
     active: index === activeIndex,
   }))
+  if (activeIndex == 0) {
+    listActive.value = list.value
+  } else {
+    listActive.value = list2.value
+  }
 }
 </script>
 <template>
   <ktItem :titleList="titleList" @selectTitle="changeTitleActive">
     <div class="w-[100%] h-[245px] bg-[url('@/assets/img/item-box.png')] bg-[length:100%_100%] flex items-center">
-      <div class="flex flex-col items-center justify-around w-[100%]" v-for="(item, i) in list" :key="i">
+      <div class="flex flex-col items-center justify-around w-[100%]" v-for="(item, i) in listActive" :key="item.name">
         <div
           class="w-[208.43px] h-[48.63px] flex items-center justify-center text-[28px] text-[rgba(255,255,255,0.8)] bg-[url('@/assets/img/situational_awareness/comp3-son-title.png')] bg-[length:100%_100%]"
         >
@@ -63,7 +90,7 @@ const changeTitleActive = (activeIndex) => {
               <i v-for="segment in 16" :key="segment" class="pv-seg" :style="{ '--a': `${(segment - 1) * 22.5}deg` }"></i>
             </div>
           </div>
-          <div class="w-[80px] h-[58px] absolute top-[10px] z-[9] left-[8px]" :class="item.icon"></div>
+          <img :src="item.icon" class="absolute top-[10px] z-[999] left-[8px]" />
         </div>
       </div>
     </div>

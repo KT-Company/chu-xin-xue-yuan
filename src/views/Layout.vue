@@ -11,7 +11,11 @@ import ktPopList from '@/components/my-ui/kt-pop-list.vue'
 import ktTime from '@/components/my-ui/kt-time.vue'
 import { useStore } from '@/stores/index'
 let store = useStore()
+const route = useRoute()
 const isPopFnVisible = ref(false)
+const backgroundClass = computed(() =>
+  route.path === '/pv_management' ? "bg-[url('@/assets/img/bg2.png')]" : "bg-[url('@/assets/img/bg.png')]"
+)
 
 let togglePopFn = () => {
   isPopFnVisible.value = !isPopFnVisible.value
@@ -40,7 +44,7 @@ onMounted(() => {
     <ktHeader :is-pop-fn-visible="isPopFnVisible" @openPopFn="togglePopFn" />
     <ktTime />
     <div class="absolute w-[100%] h-[100%] bg-[url('@/assets/img/overlay.png')] bg-[length:100%_100%] z-[-1]"></div>
-    <div class="absolute w-[100%] h-[100%] bg-[url('@/assets/img/bg.png')] bg-[length:100%_100%] z-[-2]"></div>
+    <div class="absolute w-[100%] h-[100%] bg-[length:100%_100%] z-[-2]" :class="backgroundClass"></div>
     <!-- <KtNav />
     <KtTimer /> -->
     <ktPopFn v-if="isPopFnVisible" @close="hidePopFn" />
