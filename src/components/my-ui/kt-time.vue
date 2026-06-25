@@ -40,7 +40,6 @@ let perspectiveListFn = (data) => {
 }
 //时间指针移动时改变场景光效
 let changeLight = (offsetX) => {
-  console.log(offsetX)
   if (0 < offsetX < 0.14) {
     //00:00-03:00
   } else if (0.14 < offsetX < 0.24) {
