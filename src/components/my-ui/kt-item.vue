@@ -21,7 +21,7 @@ const emit = defineEmits(['selectTitle', 'changeSonTitleActive'])
     <div class="relative overflow-hidden w-[747px] h-[79px] bg-[url('@/assets/img/item-header.png')] bg-[length:100%_100%] font-[SHSCN] flex">
       <div class="absolute top-0 left-0 w-[8px] h-[68px] bg-[url('@/assets/img/item-header-icon.png')] bg-[length:100%_100%]"></div>
       <div
-        class="ml-[82px] text-[36px] text-[rgba(255,255,255,1)] list cursor-pointer pt-[6px]"
+        class="ml-[82px] text-[36px] font-[600] text-[rgba(255,255,255,1)] list cursor-pointer pt-[6px] son-header"
         v-for="(item, i) in props.titleList"
         :key="i"
         :class="item.active ? 'active' : ''"
@@ -53,6 +53,13 @@ const emit = defineEmits(['selectTitle', 'changeSonTitleActive'])
 /* div{
   position: relative;
 } */
+.son-header {
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 30%, rgba(rgba(64, 191, 243, 1)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .list {
   position: relative;
   height: 70px;

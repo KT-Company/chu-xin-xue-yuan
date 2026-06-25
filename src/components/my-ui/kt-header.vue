@@ -5,38 +5,13 @@ const props = defineProps({
   isPopFnVisible: Boolean,
 })
 const emit = defineEmits(['openPopFn'])
-let menuListState = ref('态势感知')
+let activeMenuId = ref('second-1')
 const now = useNow({ interval: 1000 })
 const currentDate = useDateFormat(now, 'YYYY-MM-DD')
 const currentTime = useDateFormat(now, 'HH:mm:ss')
 
 const store = useStore()
-let menuList = ref([
-  {
-    name: '态势感知',
-    path: '/situational_awareness',
-  },
-  {
-    name: '光伏管理',
-    path: '/pv_management',
-  },
-  {
-    name: '碳排管理',
-    path: '/ce_management',
-  },
-  {
-    name: '生活热水',
-    path: '/left_hot_water',
-  },
-  {
-    name: '空调系统',
-    path: '/air_conditioner',
-  },
-  {
-    name: '运维监控',
-    path: '/om_monitor',
-  },
-])
+let menuList = computed(() => store.navMenuList)
 
 let headerState = ref([true, true])
 let isKeyboardTipVisible = ref(false)
@@ -54,12 +29,10 @@ let hideKeyboardTip = () => {
 }
 
 let navigationSwitch = (data) => {
-  if (data.name == '态势感知' || data.name == '空调系统' || data.name == '运维监控') {
-    store.timeWeather = true
-  } else {
-    store.timeWeather = false
-  }
-  menuListState.value = data.name
+  store.timeWeather = ['/situational_awareness', '/air_conditioner', '/om_monitor'].includes(data.path)
+  activeMenuId.value = data.id
+  if (!data.path) return
+
   router.push(data.path)
 }
 let handleCloseDashboard = () => {
@@ -72,20 +45,22 @@ let handleOpenPopFn = () => {
 <template>
   <div class="pointer-events-auto w-[100%] h-[2160px] absolute left-0 top-0 bg-[url('@/assets/img/header-box.png')] bg-[length:100%_100%] font-[SHSCN]">
     <div class="w-[100%] h-[218px] absolute bg-[url('@/assets/img/header-line.gif')] bg-[length:100%_100%]"></div>
-    <div class="absolute w-[944px] h-[132px] left-[50%] translate-x-[-50%] top-[40px] bg-[url('@/assets/img/font-text.png')] bg-[length:100%_100%]"></div>
+    <div class="absolute w-[944px] h-[132px] left-[50%] translate-x-[-50%] top-[40px] text-[88px] font-[700] text-center">
+      <p class="header-text">{{ store.headerTitle }}</p>
+    </div>
     <!-- 左侧用于承载时间和一级导航，方便大屏头部按视觉稿固定定位 -->
     <div class="absolute left-[80px] top-[78px] flex items-center text-[28px]">
       <div class="flex items-center font-[38px]">
         <p class="time time1 pr-[5px]">{{ currentDate }}</p>
         <p class="time time2 pl-[5px]">{{ currentTime }}</p>
       </div>
-      <div class="flex items-center text-[40px] ml-[50px] cursor-pointer">
+      <div class="flex items-center text-[40px] ml-[50px] cursor-pointer w-[992px]">
         <div
-          class="route-list w-[292px] h-[88px] flex items-center justify-center text-[rgba(255,255,255,0.8)]"
-          v-for="(item, index) in menuList.slice(0, 3)"
-          :key="index"
+          class="route-list h-[88px] flex items-center justify-center text-[rgba(255,255,255,0.8)]"
+          v-for="(item, index) in menuList.slice(0, menuList.length / 2)"
+          :key="item.id"
           @click="navigationSwitch(item)"
-          :class="menuListState == item.name ? 'active' : ''"
+          :class="activeMenuId == item.id ? 'active' : ''"
         >
           <p>{{ item.name }}</p>
         </div>
@@ -93,13 +68,13 @@ let handleOpenPopFn = () => {
     </div>
     <!-- 右侧与左侧分开定位，避免中间标题区域被导航挤压 -->
     <div class="absolute right-[106px] top-[78px] flex items-center">
-      <div class="flex items-center text-[40px] ml-[50px] cursor-pointer">
+      <div class="flex items-center text-[40px] ml-[50px] cursor-pointer w-[992px]">
         <div
-          class="route-list2 w-[292px] h-[88px] flex items-center justify-center text-[rgba(255,255,255,0.8)]"
-          v-for="(item, index) in menuList.slice(3, 6)"
-          :key="index"
+          class="route-list2 h-[88px] flex items-center justify-center text-[rgba(255,255,255,0.8)]"
+          v-for="(item, index) in menuList.slice(menuList.length / 2, menuList.length)"
+          :key="item.id"
           @click="navigationSwitch(item)"
-          :class="menuListState == item.name ? 'active' : ''"
+          :class="activeMenuId == item.id ? 'active' : ''"
         >
           <p>{{ item.name }}</p>
         </div>
@@ -139,6 +114,12 @@ let handleOpenPopFn = () => {
   </div>
 </template>
 <style lang="less" scoped>
+.header-text {
+  background: linear-gradient(180deg, #ffffff 0%, #ffffff 30%, rgba(rgba(64, 191, 243, 1)) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 .time {
   position: relative;
   font-style: normal;
@@ -164,6 +145,7 @@ let handleOpenPopFn = () => {
 }
 .route-list {
   position: relative;
+  flex-grow: 1;
   &.active {
     color: rgba(109, 210, 254, 1);
     &::before {
@@ -187,13 +169,14 @@ let handleOpenPopFn = () => {
     background-size: 100% 100%;
     width: 25px;
     height: 38px;
-    right: 0px;
+    right: -2%;
     top: 50%;
     transform: translateY(-50%);
   }
 }
 .route-list2 {
   position: relative;
+  flex-grow: 1;
   &.active {
     color: rgba(109, 210, 254, 1);
     &::before {
@@ -217,7 +200,7 @@ let handleOpenPopFn = () => {
     background-size: 100% 100%;
     width: 25px;
     height: 38px;
-    left: 0px;
+    left: -2%;
     top: 50%;
     transform: translateY(-50%);
   }

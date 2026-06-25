@@ -4,16 +4,21 @@
  * @Description:
 -->
 <script setup lang="ts">
-import { FIRST_MENU_LIST, FOOTER_BUTTON_LIST, MAX_MENU_COUNT, MENU_DEFAULT_NAME_MAP, SECOND_MENU_LIST } from './constants/ktPopFnMenus'
+import { FIRST_MENU_LIST, FOOTER_BUTTON_LIST, MAX_MENU_COUNT, MENU_DEFAULT_NAME_MAP } from './constants/ktPopFnMenus'
 import type { MenuType } from './types/ktPopFn'
-import { addMenuItem, cloneMenuList, deleteMenuItem, getMenuEditingKey, updateMenuItemName } from './utils/ktPopFnMenu'
-
+import { addMenuItem, cloneMenuList, deleteMenuItem, getMenuEditingKey, moveMenuItem, updateMenuItemName } from './utils/ktPopFnMenu'
+import { useStore } from '@/stores/index'
+const store = useStore()
 const emit = defineEmits(['close'])
 const firstMenuList = ref(cloneMenuList(FIRST_MENU_LIST))
-const secondMenuList = ref(cloneMenuList(SECOND_MENU_LIST))
+const secondMenuList = computed(() => store.navMenuList)
 const footerButtonList = FOOTER_BUTTON_LIST
 const editingKey = ref('')
 const editingName = ref('')
+const dragMenuType = ref<MenuType | ''>('')
+const dragMenuIndex = ref(-1)
+
+firstMenuList.value[0].name = store.headerTitle
 
 const getMenuList = (menuType: MenuType) => (menuType === 'first' ? firstMenuList.value : secondMenuList.value)
 
@@ -39,7 +44,10 @@ const startEditMenu = (menuType: MenuType, index: number) => {
 const saveEditMenu = (menuType: MenuType, index: number) => {
   const menuName = editingName.value.trim()
   if (menuName) {
-    updateMenuItemName(getMenuList(menuType), index, menuName)
+    updateMenuItemName(getMenuList(menuType), index, menuName, menuType)
+    if (menuType === 'first') {
+      store.headerTitle = menuName
+    }
   }
 
   editingKey.value = ''
@@ -50,6 +58,26 @@ const removeMenu = (menuType: MenuType, index: number) => {
   deleteMenuItem(getMenuList(menuType), index)
   editingKey.value = ''
   editingName.value = ''
+}
+
+const startDragMenu = (menuType: MenuType, index: number, event: DragEvent) => {
+  dragMenuType.value = menuType
+  dragMenuIndex.value = index
+  editingKey.value = ''
+  editingName.value = ''
+  event.dataTransfer?.setData('text/plain', `${menuType}-${index}`)
+}
+
+const enterDragMenu = (menuType: MenuType, index: number) => {
+  if (dragMenuType.value !== menuType || dragMenuIndex.value === index) return
+
+  moveMenuItem(getMenuList(menuType), dragMenuIndex.value, index)
+  dragMenuIndex.value = index
+}
+
+const endDragMenu = () => {
+  dragMenuType.value = ''
+  dragMenuIndex.value = -1
 }
 </script>
 
@@ -71,39 +99,50 @@ const removeMenu = (menuType: MenuType, index: number) => {
       <section class="w-[724px]">
         <div class="flex items-center justify-between">
           <h3 class="h-[54px] text-[32px] leading-[54px] font-[700]">一级菜单</h3>
-          <button class="h-[68px] w-[68px] cursor-pointer" type="button" @click="addMenu('first')">
+          <!-- <button class="h-[68px] w-[68px] cursor-pointer" type="button" @click="addMenu('first')">
             <img src="@/assets/img/pop/pop-add.png" alt="" />
-          </button>
+          </button> -->
         </div>
         <div class="mt-[44px] h-[566px] border border-[rgba(52,103,165,0.38)] bg-[rgba(8,31,59,0.42)] px-[26px] py-[44px]">
           <div class="pop-fn__row mb-[22px] h-[28px] text-[22px] font-bold text-[rgba(255,255,255,0.72)]">
             <span>序号</span>
             <span>一级名称</span>
           </div>
-          <div class="pop-fn__row mb-[28px] h-[48px]" v-for="(item, index) in firstMenuList" :key="item.id">
-            <span
-              class="flex h-[48px] w-[48px] items-center justify-center rounded-[8px] border border-[rgba(95,139,194,0.45)] bg-[rgba(32,56,89,0.7)] text-[22px] text-[rgba(255,255,255,0.75)]"
+          <div class="pop-fn__list">
+            <div
+              class="pop-fn__row mb-[28px] h-[48px]"
+              v-for="(item, index) in firstMenuList"
+              :key="item.id"
+              draggable="false"
+              @dragstart="startDragMenu('first', index, $event)"
+              @dragenter.prevent="enterDragMenu('first', index)"
+              @dragover.prevent
+              @dragend="endDragMenu"
             >
-              {{ index + 1 }}
-            </span>
-            <input
-              v-if="editingKey === getMenuEditingKey('first', index)"
-              v-model="editingName"
-              class="pop-fn__input pop-fn__input1"
-              type="text"
-              autofocus
-              @blur="saveEditMenu('first', index)"
-              @keyup.enter="saveEditMenu('first', index)"
-            />
-            <span v-else class="pop-fn__menu-name h-[54px]">
-              {{ item.name }}
-            </span>
-            <button class="h-[36px] w-[36px] cursor-pointer" type="button" @click="startEditMenu('first', index)">
-              <img src="@/assets/img/pop/pop-edit.png" alt="" />
-            </button>
-            <button class="h-[36px] w-[36px] cursor-pointer" type="button" @click="removeMenu('first', index)">
-              <img src="@/assets/img/pop/pop-del.png" alt="" />
-            </button>
+              <span
+                class="flex h-[48px] w-[48px] items-center justify-center rounded-[8px] border border-[rgba(95,139,194,0.45)] bg-[rgba(32,56,89,0.7)] text-[22px] text-[rgba(255,255,255,0.75)]"
+              >
+                {{ index + 1 }}
+              </span>
+              <input
+                v-if="editingKey === getMenuEditingKey('first', index)"
+                v-model="editingName"
+                class="pop-fn__input pop-fn__input1"
+                type="text"
+                autofocus
+                @blur="saveEditMenu('first', index)"
+                @keyup.enter="saveEditMenu('first', index)"
+              />
+              <span v-else class="pop-fn__menu-name h-[54px]">
+                {{ item.name }}
+              </span>
+              <button class="h-[36px] w-[36px] cursor-pointer" type="button" @click="startEditMenu('first', index)">
+                <img src="@/assets/img/pop/pop-edit.png" alt="" />
+              </button>
+              <!-- <button class="h-[36px] w-[36px] cursor-pointer" type="button" @click="removeMenu('first', index)">
+                <img src="@/assets/img/pop/pop-del.png" alt="" />
+              </button> -->
+            </div>
           </div>
         </div>
       </section>
@@ -120,30 +159,41 @@ const removeMenu = (menuType: MenuType, index: number) => {
             <span>序号</span>
             <span>二级名称</span>
           </div>
-          <div class="pop-fn__row mb-[28px] h-[48px]" v-for="(item, index) in secondMenuList" :key="item.id">
-            <span
-              class="flex h-[48px] w-[48px] items-center justify-center rounded-[8px] border border-[rgba(95,139,194,0.45)] bg-[rgba(32,56,89,0.7)] text-[22px] text-[rgba(255,255,255,0.75)]"
+          <div class="pop-fn__list">
+            <div
+              class="pop-fn__row mb-[28px] h-[48px] cursor-move"
+              v-for="(item, index) in secondMenuList"
+              :key="item.id"
+              draggable="true"
+              @dragstart="startDragMenu('second', index, $event)"
+              @dragenter.prevent="enterDragMenu('second', index)"
+              @dragover.prevent
+              @dragend="endDragMenu"
             >
-              {{ index + 1 }}
-            </span>
-            <input
-              v-if="editingKey === getMenuEditingKey('second', index)"
-              v-model="editingName"
-              class="pop-fn__input"
-              type="text"
-              autofocus
-              @blur="saveEditMenu('second', index)"
-              @keyup.enter="saveEditMenu('second', index)"
-            />
-            <span v-else class="pop-fn__menu-name h-[48px]">
-              {{ item.name }}
-            </span>
-            <button class="h-[36px] w-[36px] cursor-pointer" type="button" @click="startEditMenu('second', index)">
-              <img src="@/assets/img/pop/pop-edit.png" alt="" />
-            </button>
-            <button class="h-[36px] w-[36px] cursor-pointer" type="button" @click="removeMenu('second', index)">
-              <img src="@/assets/img/pop/pop-del.png" alt="" />
-            </button>
+              <span
+                class="flex h-[48px] w-[48px] items-center justify-center rounded-[8px] border border-[rgba(95,139,194,0.45)] bg-[rgba(32,56,89,0.7)] text-[22px] text-[rgba(255,255,255,0.75)]"
+              >
+                {{ index + 1 }}
+              </span>
+              <input
+                v-if="editingKey === getMenuEditingKey('second', index)"
+                v-model="editingName"
+                class="pop-fn__input"
+                type="text"
+                autofocus
+                @blur="saveEditMenu('second', index)"
+                @keyup.enter="saveEditMenu('second', index)"
+              />
+              <span v-else class="pop-fn__menu-name h-[48px]">
+                {{ item.name }}
+              </span>
+              <button class="h-[36px] w-[36px] cursor-pointer" type="button" @click="startEditMenu('second', index)">
+                <img src="@/assets/img/pop/pop-edit.png" alt="" />
+              </button>
+              <button class="h-[36px] w-[36px] cursor-pointer" type="button" @click="removeMenu('second', index)">
+                <img src="@/assets/img/pop/pop-del.png" alt="" />
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -168,6 +218,25 @@ const removeMenu = (menuType: MenuType, index: number) => {
   grid-template-columns: 76px 1fr 48px 48px;
   column-gap: 16px;
   align-items: center;
+}
+
+.pop-fn__list {
+  height: 420px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.pop-fn__list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.pop-fn__list::-webkit-scrollbar-track {
+  background-color: rgba(8, 31, 59, 0.42);
+}
+
+.pop-fn__list::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(95, 139, 194, 0.7);
 }
 
 .pop-fn__menu-name,

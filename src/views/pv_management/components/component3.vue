@@ -99,9 +99,9 @@ let list = ref([
           </div>
         </div>
       </div>
-      <div class="w-[218px] h-[296px] bg-[url('@/assets/img/pv/comp3-e-box.png')] bg-[length:100%_100%] flex flex-col items-center text-[#fff]">
-        <div class="relative w-[198px] h-[188px] bg-[url('@/assets/img/pv/comp3-e-test.png')] bg-[length:100%_100%] mt-[10px] flex items-center justify-center">
-          <div class="absolute left-[12px] top-[7px] w-[174px] h-[174px] bg-[url('@/assets/img/pv/comp3-e-bg.png')] bg-[length:100%_100%]">
+      <div class="w-[218px] h-[300px] bg-[url('@/assets/img/pv/comp3-e-box.png')] bg-[length:100%_100%] flex flex-col items-center text-[#fff]">
+        <div class="relative w-[188px] h-[188px] bg-[url('@/assets/img/pv/comp3-e-test.png')] bg-[length:100%_100%] mt-[10px] flex items-center justify-center">
+          <div class="absolute w-[174px] h-[174px] bg-[url('@/assets/img/pv/comp3-e-bg.png')] bg-[length:100%_100%]">
             <ktEchart :option="loadRateOption" />
           </div>
         </div>
