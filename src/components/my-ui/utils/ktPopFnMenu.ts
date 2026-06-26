@@ -3,14 +3,25 @@
  * @Date: 2026-06-17 17:08:27
  * @Description:
  */
-import type { MenuItem, MenuType } from '../types/ktPopFn'
-import { SECOND_MENU_LIST } from '@/components/my-ui/constants/ktPopFnMenus'
+import type { AddMenuFormValidateResult, MenuItem, MenuType } from '../types/ktPopFn'
+import { MENU_NAME_MAX_LENGTH, MENU_PATH_PATTERN, SECOND_MENU_LIST } from '@/components/my-ui/constants/ktPopFnMenus'
 export const cloneMenuList = (menuList: MenuItem[]) => menuList.map((item) => ({ ...item }))
 
 export const getMenuEditingKey = (menuType: MenuType, index: number) => `${menuType}-${index}`
 
-export const addMenuItem = (menuList: MenuItem[], menuType: MenuType, name: string) => {
-  menuList.push({ id: `${menuType}-${Date.now()}-${menuList.length}`, name })
+export const validateAddMenuForm = (menuName: string, menuPath: string): AddMenuFormValidateResult => {
+  const menuNameError = !menuName ? '菜单名称不能为空' : menuName.length > MENU_NAME_MAX_LENGTH ? '菜单名称长度为 1-15 位' : ''
+  const menuPathError = !menuPath ? '路由地址不能为空' : MENU_PATH_PATTERN.test(menuPath) ? '' : '路由地址仅支持字母、数字、/、_、-'
+
+  return {
+    isValid: !menuNameError && !menuPathError,
+    menuNameError,
+    menuPathError,
+  }
+}
+
+export const addMenuItem = (menuList: MenuItem[], menuType: MenuType, name: string, path?: string) => {
+  menuList.push({ id: `${menuType}-${Date.now()}-${menuList.length}`, name, path })
 
   return menuList.length - 1
 }

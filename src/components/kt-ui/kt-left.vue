@@ -11,7 +11,7 @@ onMounted(() => {})
 </script>
 
 <template>
-  <div class="left animate__animated animate__bounceInLeft" :class="{ 'board-hidden': !store.isDashboardVisible }">
+  <div class="left animate__animated animate__fadeInLeft" :class="{ 'board-hidden': !store.isDashboardVisible }">
     <slot />
   </div>
 </template>

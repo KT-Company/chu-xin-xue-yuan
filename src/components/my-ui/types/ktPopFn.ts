@@ -5,3 +5,9 @@ export interface MenuItem {
   name: string
   path?: string
 }
+
+export interface AddMenuFormValidateResult {
+  isValid: boolean
+  menuNameError: string
+  menuPathError: string
+}

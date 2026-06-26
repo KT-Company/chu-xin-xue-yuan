@@ -184,12 +184,11 @@ let changeSonTitleActive = () => {
     <div class="w-[100%] h-[697px] bg-[url('@/assets/img/item-box.png')] bg-[length:100%_100%] px-[20px] pt-[23px] text-[#fff]">
       <div class="flex">
         <div class="w-[218px] h-[279px] bg-[url('@/assets/img/pv/comp3-e-box.png')] bg-[length:100%_100%] flex flex-col items-center text-[#fff]">
-          <div
-            class="relative w-[198px] h-[188px] bg-[url('@/assets/img/pv/comp3-e-test.png')] bg-[length:100%_100%] mt-[10px] flex items-center justify-center"
-          >
+          <div class="relative w-[198px] h-[188px] mt-[10px] flex items-center justify-center">
             <div class="absolute left-[12px] top-[7px] w-[174px] h-[174px] bg-[url('@/assets/img/pv/comp3-e-bg.png')] bg-[length:100%_100%]">
               <kt-echart :option="loadRateOption" />
             </div>
+            <div class="absolute w-[198px] h-[188px] bg-[url('@/assets/img/pv/comp3-e-test.png')] bg-[length:100%_100%] rotate-animate"></div>
           </div>
           <p class="son-title text-[36px] font-[700]">报警总数</p>
           <!-- <div class="flex items-end">
@@ -220,6 +219,9 @@ let changeSonTitleActive = () => {
   </ktItem>
 </template>
 <style scoped lang="less">
+.rotate-animate {
+  animation: rotateAnimate 3s linear infinite;
+}
 .son-title2 {
   position: relative;
   &.active1 {

@@ -15,6 +15,7 @@ let menuList = computed(() => store.navMenuList)
 
 let headerState = ref([true, true])
 let isKeyboardTipVisible = ref(false)
+let isSettingVisible = ref(false)
 
 let headerStateFn = (i) => {
   headerState.value[i] = !headerState.value[i]
@@ -31,6 +32,7 @@ let hideKeyboardTip = () => {
 let navigationSwitch = (data) => {
   store.timeWeather = ['/situational_awareness', '/air_conditioner', '/om_monitor'].includes(data.path)
   activeMenuId.value = data.id
+  isSettingVisible.value = data.path === '/om_monitor'
   if (!data.path) return
 
   router.push(data.path)
@@ -44,7 +46,32 @@ let handleOpenPopFn = () => {
 </script>
 <template>
   <div class="pointer-events-auto w-[100%] h-[2160px] absolute left-0 top-0 bg-[url('@/assets/img/header-box.png')] bg-[length:100%_100%] font-[SHSCN]">
-    <div class="w-[100%] h-[218px] absolute bg-[url('@/assets/img/header-line.gif')] bg-[length:100%_100%]"></div>
+    <svg class="flow-line" width="100%" height="126" viewBox="0 2 3840 126" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <path
+          id="flowLinePath"
+          d="M3840 2H2722.2C2670.59 2 2622.3 27.4476 2593.12 70.0193C2567.97 106.709 2530.28 128 2490.49 128H1349.51C1309.72 128 1272.03 106.709 1246.88 70.0193C1217.7 27.4476 1169.41 2 1117.8 2H0"
+        />
+        <linearGradient id="cometColor" x1="0" y1="65" x2="3840" y2="65" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stop-color="#55E6FF" />
+          <stop offset=".42" stop-color="#7AEFFF" />
+          <stop offset=".58" stop-color="#FFFFFF" />
+          <stop offset="1" stop-color="#6AA7FF" />
+        </linearGradient>
+        <linearGradient id="cometMaskGradient" x1="1" y1="0" x2="0" y2="0">
+          <stop offset="0" stop-color="#fff" stop-opacity="1" />
+          <stop offset=".1" stop-color="#fff" stop-opacity=".95" />
+          <stop offset=".42" stop-color="#fff" stop-opacity=".45" />
+          <stop offset="1" stop-color="#fff" stop-opacity="0" />
+        </linearGradient>
+        <mask id="cometMask" maskUnits="userSpaceOnUse" x="-900" y="-40" width="5640" height="220">
+          <rect x="-820" y="-0" width="820" height="220" fill="url(#cometMaskGradient)">
+            <animate attributeName="x" values="-820;3840;3840" keyTimes="0;.7;1" dur="12s" repeatCount="indefinite" />
+          </rect>
+        </mask>
+      </defs>
+      <use href="#flowLinePath" class="flow-line__comet" />
+    </svg>
     <div class="absolute w-[944px] h-[132px] left-[50%] translate-x-[-50%] top-[40px] text-[88px] font-[700] text-center">
       <p class="header-text">{{ store.headerTitle }}</p>
     </div>
@@ -95,6 +122,7 @@ let handleOpenPopFn = () => {
         </div>
 
         <div
+          v-if="isSettingVisible"
           class="ml-[12px] cursor-pointer w-[72.31px] h-[72.31px] bg-[url('@/assets/img/header-icon-box.png')] bg-[length:100%_100%] flex items-center justify-center hover:bg-[url('@/assets/img/header-icon-box-active.png')]"
           :class="props.isPopFnVisible ? 'bg-[url(@/assets/img/header-icon-box-active.png)]' : 'bg-[url(@/assets/img/header-icon-box.png)]'"
           @click="handleOpenPopFn"
@@ -114,6 +142,22 @@ let handleOpenPopFn = () => {
   </div>
 </template>
 <style lang="less" scoped>
+.flow-line {
+  width: 100%;
+  height: 190px;
+  display: block;
+  overflow: visible;
+  position: absolute;
+  left: 0;
+  top: 30px;
+}
+.flow-line__comet {
+  stroke: url(#cometColor);
+  stroke-width: 3;
+  stroke-linecap: round;
+  mask: url(#cometMask);
+  filter: drop-shadow(0 0 3px rgba(255, 255, 255, 0.85)) drop-shadow(0 0 12px rgba(85, 230, 255, 1));
+}
 .header-text {
   background: linear-gradient(180deg, #ffffff 0%, #ffffff 30%, rgba(rgba(64, 191, 243, 1)) 100%);
   -webkit-background-clip: text;

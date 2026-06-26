@@ -1,3 +1,8 @@
+/*
+ * @Author: milong
+ * @Date: 2026-06-17 17:08:27
+ * @Description:
+ */
 import type { MenuItem, MenuType } from '../types/ktPopFn'
 
 export const FIRST_MENU_LIST: MenuItem[] = [{ id: 'first-1', name: '初心学院天光地热平台' }]
@@ -13,7 +18,11 @@ export const SECOND_MENU_LIST: MenuItem[] = [
 
 export const FOOTER_BUTTON_LIST = ['预览', '取消', '确认']
 
-export const MAX_MENU_COUNT = 8
+export const MAX_MENU_COUNT = 6
+
+export const MENU_NAME_MAX_LENGTH = 15
+
+export const MENU_PATH_PATTERN = /^[A-Za-z0-9/_-]+$/
 
 export const MENU_DEFAULT_NAME_MAP: Record<MenuType, string> = {
   first: '新一级菜单',

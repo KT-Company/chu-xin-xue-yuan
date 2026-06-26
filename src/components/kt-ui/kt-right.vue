@@ -10,7 +10,7 @@ const store = useStore()
 </script>
 
 <template>
-  <div class="right animate__animated animate__bounceInRight" :class="{ 'board-hidden': !store.isDashboardVisible }">
+  <div class="right animate__animated animate__fadeInRight" :class="{ 'board-hidden': !store.isDashboardVisible }">
     <slot />
   </div>
 </template>
