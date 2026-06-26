@@ -270,7 +270,12 @@ onBeforeUnmount(() => {
       <section class="w-[724px]">
         <div class="flex items-center justify-between">
           <h3 class="h-[54px] text-[32px] leading-[54px] font-[700]">二级菜单</h3>
-          <button class="h-[68px] w-[68px] cursor-pointer disabled:cursor-not-allowed disabled:opacity-50" type="button" :disabled="isSecondMenuMaxed" @click="openAddMenu">
+          <button
+            class="h-[68px] w-[68px] cursor-pointer disabled:cursor-not-allowed disabled:opacity-50"
+            type="button"
+            :disabled="isSecondMenuMaxed"
+            @click="openAddMenu"
+          >
             <img src="@/assets/img/pop/pop-add.png" alt="" />
           </button>
         </div>
@@ -342,11 +347,23 @@ onBeforeUnmount(() => {
     </div>
     <div class="px-[40px] pt-[37px]">
       <div class="w-[100%] h-[54px] rounded-[8px] border-[2px] border-[rgba(255,255,255,0.15)]">
-        <input v-model="addMenuName" class="add-pop-input add-pop-input--name" placeholder="菜单名称" @input="addMenuNameError = ''" @keyup.enter="confirmAddMenu" />
+        <input
+          v-model="addMenuName"
+          class="add-pop-input add-pop-input--name"
+          placeholder="菜单名称"
+          @input="addMenuNameError = ''"
+          @keyup.enter="confirmAddMenu"
+        />
       </div>
       <p v-show="addMenuNameError" class="add-pop-error">{{ addMenuNameError }}</p>
       <div class="w-[100%] h-[274px] mt-[28px] rounded-[8px] border-[2px] border-[rgba(255,255,255,0.15)]">
-        <input v-model="addMenuPath" class="add-pop-input add-pop-input--route" placeholder="路由地址" @input="addMenuPathError = ''" @keyup.enter="confirmAddMenu" />
+        <input
+          v-model="addMenuPath"
+          class="add-pop-input add-pop-input--route"
+          placeholder="路由地址"
+          @input="addMenuPathError = ''"
+          @keyup.enter="confirmAddMenu"
+        />
       </div>
       <p v-show="addMenuPathError" class="add-pop-error">{{ addMenuPathError }}</p>
     </div>
@@ -482,7 +499,7 @@ img {
   height: 24px;
   margin-top: 4px;
   color: #ff6b6b;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 24px;
 }
 </style>
